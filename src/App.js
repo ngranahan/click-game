@@ -5,6 +5,18 @@ import ImageCard from './components/ImageCard';
 import Footer from './components/Footer'
 import './styles/footer.css';
 
+// This function shuffles images but need to figure out how to do this using state on click
+const shuffleArray = (array) => {
+  let i = array.length - 1;
+  for (; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+  return array;
+}
+const shuffledImages = shuffleArray(images);
 
 class App extends Component {
   state = {
@@ -15,7 +27,7 @@ class App extends Component {
   // If image hasn't been clicked, increment score by 1.
   // If image has been clicked reset game
   // When image is clicked add it to an array of clicked images
-  incrementWins = (images) => {
+  incrementWins = () => {
     this.setState({ wins: this.state.wins + 1 });
   };
 
@@ -28,7 +40,7 @@ class App extends Component {
 
         <main>
           <div className="container card-wrapper">
-              {images.map(image => (
+              {shuffledImages.map(image => (
                 <ImageCard
                   incrementWins={this.incrementWins}
                   id={image.id}
