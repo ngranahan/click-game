@@ -5,31 +5,37 @@ import ImageCard from './components/ImageCard';
 import Footer from './components/Footer'
 import './styles/footer.css';
 
-// This function shuffles images but need to figure out how to do this using state on click
-const shuffleArray = (array) => {
-  let i = array.length - 1;
-  for (; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
-  }
-  return array;
-}
-const shuffledImages = shuffleArray(images);
+const clickedImages = ["word"];
 
 class App extends Component {
   state = {
-    wins: 0
+    wins: 0,
+    images,
+    clickedImages
   };
 
-  // When image is clicked, check to see if it has already been clicked (need to figure out how to do that!). 
-  // If image hasn't been clicked, increment score by 1.
-  // If image has been clicked reset game
-  // When image is clicked add it to an array of clicked images
-  incrementWins = () => {
-    this.setState({ wins: this.state.wins + 1 });
-  };
+  gamePlay = (id) => {
+  console.log(id);
+    if (!this.state.clickedImages.includes(id)) {
+      this.setState({ wins: this.state.wins + 1 });
+      const temp = [];
+      temp.push(id);
+      this.setState({ clickedImages: temp })
+      console.log("added to array");
+    } else {
+      this.setState({ wins: 0 })
+    }
+
+    // Shuffle image cards
+    let i = this.state.images.length - 1;
+    for (; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = this.state.images[i];
+      this.state.images[i] = this.state.images[j];
+      this.state.images[j] = temp;
+    }
+    return this.setState({ images: this.state.images });
+  }
 
   render() {
     return (
@@ -40,9 +46,9 @@ class App extends Component {
 
         <main>
           <div className="container card-wrapper">
-              {shuffledImages.map(image => (
+              {this.state.images.map(image => (
                 <ImageCard
-                  incrementWins={this.incrementWins}
+                  gamePlay={this.gamePlay}
                   id={image.id}
                   key={image.id}
                   src={image.src}
