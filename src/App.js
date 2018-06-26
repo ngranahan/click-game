@@ -23,7 +23,7 @@ class App extends Component {
       this.setState({ clickedImages: temp })
       console.log("added to array");
     } else {
-      this.setState({ wins: 0 })
+      this.setState({ wins: 0, clickedImages: [] })
     }
 
     // Shuffle image cards
